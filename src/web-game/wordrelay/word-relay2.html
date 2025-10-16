@@ -1,0 +1,49 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>끝말잇기</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+<div id="root">
+    <wordrelay startword="제로초"></wordrelay>
+    <wordrelay startword="초밥"></wordrelay>
+    <wordrelay startword="밥집"></wordrelay>
+</div>
+</body>
+<script>
+    Vue.createApp()
+        .component('wordrelay', {
+            template: `
+              <div>{{ word }}</div>
+              <form @submit.prevent="onSubmitForm">
+                <input type="text" v-model="value" ref="answer"/>
+                <button type="submit">입력!</button>
+              </form>
+              <div>{{ result }}</div>
+            `,
+            props: ['startword'],
+            data() {
+                return {
+                    word: this.startword,
+                    value: '',
+                    result: ''
+                }
+            },
+            methods:
+                {
+                    onSubmitForm() {
+                        if (this.word[this.word.length - 1] === this.value[0]) {
+                            this.result = '딩동댕';
+                            this.word = this.value;
+                        } else {
+                            this.result = '땡';
+                        }
+                        this.value = '';
+                        this.$refs.answer.focus();
+                    }
+                }
+        })
+        .mount('#root');
+</script>
+</html>
